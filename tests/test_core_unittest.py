@@ -38,7 +38,8 @@ class TestCore(unittest.TestCase):
         self.assertEqual(response.status_code, 200, 'Should be 200.')
         self.assertTrue('status' in payload, 'Payload should include "status".')
         self.assertTrue('data' in payload, 'Payload should include "data".')
-        self.assertTrue(len(payload['data']) > 0, 'Should contain data.')
+        self.assertTrue(len(payload['data']) > 0,
+                        'Payload should contain data.')
 
 
     def test_get_stations_in_bounds_expect_empty(self):
@@ -57,7 +58,8 @@ class TestCore(unittest.TestCase):
         self.assertEqual(response.status_code, 200, 'Should be 200.')
         self.assertTrue('status' in payload, 'Payload should include "status".')
         self.assertTrue('data' in payload, 'Payload should include "data".')
-        self.assertTrue(len(payload['data']) > 0, 'Payload should be empty.')
+        self.assertTrue(len(payload['data']) > 0,
+                        'Payload should contain data.')
 
 
 if __name__ == '__main__':
