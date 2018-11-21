@@ -1,6 +1,8 @@
 import requests
 import os
 
+from station import Station
+
 
 TOKEN = os.environ['AQIPY_TOKEN']
 
@@ -25,14 +27,14 @@ def list_stations_in_bounds(lat1, lng1, lat2, lng2, raw=False):
     latlng = (',').join(list(map(str, [lat1, lng1, lat2, lng2])))
     r = requests.get(_url(f'/map/bounds/?token={TOKEN}&latlng={latlng}'))
 
-# TODO(danoscarmike): create a class for the response format??
+    # TODO(danoscarmike): create a class for the response format??
     if not raw:
         for station in r.json()['data']:
-            station_id = str(station['uid'])
-            city_name = get_city_feed('@'+station_id).json()['data']['city']['name']
+            r_city = get_city_feed('@'+str(station['uid']))
+            city_name = r_city.json()['data']['city']['name']
             print(city_name)
     else:
-        print(r.json())
+        return r.json()
 
 
 def search_stations(keyword):
