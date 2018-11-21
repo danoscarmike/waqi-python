@@ -20,12 +20,12 @@ def get_local_feed():
 def get_feed_by_location(lat, lng):
     return requests.get(_url(f'/feed/geo:{lat};{lng}/?token={TOKEN}'))
 
-# TODO: what is the best format to pass a bounding box? Is there a standard?
+# TODO(danoscarmike): what is the best format to pass a bounding box? Is there a standard?
 def list_stations_in_bounds(lat1, lng1, lat2, lng2, raw=False):
     latlng = (',').join(list(map(str, [lat1, lng1, lat2, lng2])))
     r = requests.get(_url(f'/map/bounds/?token={TOKEN}&latlng={latlng}'))
 
-# TODO: create a class for the response format??
+# TODO(danoscarmike): create a class for the response format??
     if not raw:
         for station in r.json()['data']:
             station_id = str(station['uid'])
