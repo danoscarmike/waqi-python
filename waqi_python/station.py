@@ -1,5 +1,21 @@
+class Attribution():
+    def __init__(self, data):
+        self.name = data['name']
+        self.url = data['url']
+
+    def __repr__(self):
+        print(self.name)
+
 class Station():
-    def __init__(self, uid, lat, lon):
-        self.uid = uid
-        self.lat = lat
-        self.lon = lon
+    def __init__(self, data):
+        self.idx = data['idx']
+        self.aqi = data['aqi']
+        self.time = data['time']['s']
+        self.name = data['city']['name']
+        self.geo = data['city']['geo']
+        self.url = data['city']['url']
+
+        attributions = []
+        for attrib in data['attributions']:
+            attributions.append(Attribution(attrib))
+        self.attributions = iter(attributions)
