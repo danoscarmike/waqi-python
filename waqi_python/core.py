@@ -9,17 +9,18 @@ class WaqiClient(BaseClient):
 
 
     def get_city_feed(self, city):
-        r = requests.get(self._url(f'feed/{city}/?token={self.token}'))
+        r = requests.get(self._url(f'feed/{city}/'), params=self.params)
         return r, r.json()
 
 
     def get_local_feed(self):
-        r = requests.get(self._url(f'feed/here/?token={self.token}'))
+        r = requests.get(self._url(f'feed/here/'), params=self.params)
         return r, r.json()
 
 
     def get_feed_by_location(self, lat, lng):
-        r = requests.get(self._url(f'/feed/geo:{lat};{lng}/?token={self.token}'))
+        r = requests.get(self._url(f'/feed/geo:{lat};{lng}/'),
+                         params=self.params)
         return r, r.json()
 
 
@@ -27,10 +28,12 @@ class WaqiClient(BaseClient):
     # Is there a standard?
     def get_stations_in_bounds(self, lat1, lng1, lat2, lng2):
         latlng = (',').join(list(map(str, [lat1, lng1, lat2, lng2])))
-        r = requests.get(self._url(f'/map/bounds/?token={self.token}&latlng={latlng}'))
+        r = requests.get(self._url(f'/map/bounds/?latlng={latlng}'),
+                         params=self.params)
         return r, r.json()
 
 
     def search_stations(self, keyword):
-        r = requests.get(self._url(f'search/?keyword={keyword}&token={self.token}'))
+        r = requests.get(self._url(f'search/?keyword={keyword}'),
+                         params=self.params)
         return r, r.json()
