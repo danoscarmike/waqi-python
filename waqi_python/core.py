@@ -9,34 +9,38 @@ class WaqiClient(BaseClient):
         return self.base_url + path
 
 
-    def get_city_feed(self, city):
+    def get_station_by_city_name(self, city):
         r = requests.get(self._url(f'feed/{city}/'), params=self.params)
         # return r, r.json()
         if r.json()['status'] == 'ok':
             return Station(r.json()['data'])
 
 
-    def get_local_feed(self):
+    def get_local_station(self):
         r = requests.get(self._url(f'feed/here/'), params=self.params)
-        return r, r.json()
+        if r.json()['status'] == 'ok':
+            return Station(r.json()['data'])
 
 
-    def get_feed_by_location(self, lat, lng):
+    def get_station_by_latlng(self, lat, lng):
         r = requests.get(self._url(f'/feed/geo:{lat};{lng}/'),
                          params=self.params)
-        return r, r.json()
+        if r.json()['status'] == 'ok':
+            return Station(r.json()['data'])
 
 
     # TODO(danoscarmike): what is the best format to pass a bounding box?
     # Is there a standard?
-    def get_stations_in_bounds(self, lat1, lng1, lat2, lng2):
-        latlng = (',').join(list(map(str, [lat1, lng1, lat2, lng2])))
+    def get_stations_by_bbox(self, lat1, lng1, lat2, lng2):
+        bbox = [min(lat1,lat2), min(lng1,lng2), max(lat1,lat2), max(lng1,lng2)]
+        latlng = (',').join(list(map(str, bbox)))
         r = requests.get(self._url(f'/map/bounds/?latlng={latlng}'),
                          params=self.params)
-        return r, r.json()
+        if r.json()['status'] == 'ok':
+            return r, r.json()
 
 
-    def search_stations(self, keyword):
+    def list_stations_by_keyword(self, keyword):
         r = requests.get(self._url(f'search/?keyword={keyword}'),
                          params=self.params)
         return r, r.json()

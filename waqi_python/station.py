@@ -19,3 +19,4 @@ class Station():
         # self.attributions = iter(attributions)
 
         self.attributions = data['attributions']
+        self.raw = data
