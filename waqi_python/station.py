@@ -3,8 +3,6 @@ class Attribution():
         self.name = data['name']
         self.url = data['url']
 
-    def __repr__(self):
-        print(self.name)
 
 class Station():
     def __init__(self, data):
@@ -15,7 +13,9 @@ class Station():
         self.geo = data['city']['geo']
         self.url = data['city']['url']
 
-        attributions = []
-        for attrib in data['attributions']:
-            attributions.append(Attribution(attrib))
-        self.attributions = iter(attributions)
+        # attributions = []
+        # for attrib in data['attributions']:
+        #     attributions.append(Attribution(attrib))
+        # self.attributions = iter(attributions)
+
+        self.attributions = data['attributions']

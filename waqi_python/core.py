@@ -1,6 +1,7 @@
 import requests
 
 from .base_client import BaseClient
+from .station import Station
 
 
 class WaqiClient(BaseClient):
@@ -10,7 +11,9 @@ class WaqiClient(BaseClient):
 
     def get_city_feed(self, city):
         r = requests.get(self._url(f'feed/{city}/'), params=self.params)
-        return r, r.json()
+        # return r, r.json()
+        if r.json()['status'] == 'ok':
+            return Station(r.json()['data'])
 
 
     def get_local_feed(self):
