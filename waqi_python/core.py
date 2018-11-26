@@ -1,6 +1,6 @@
 import requests
 
-from base_client import BaseClient
+from .base_client import BaseClient
 
 
 class WaqiClient(BaseClient):
@@ -18,19 +18,19 @@ class WaqiClient(BaseClient):
         return r, r.json()
 
 
-    def get_feed_by_location(lat, lng):
+    def get_feed_by_location(self, lat, lng):
         r = requests.get(self._url(f'/feed/geo:{lat};{lng}/?token={self.token}'))
         return r, r.json()
 
 
     # TODO(danoscarmike): what is the best format to pass a bounding box?
     # Is there a standard?
-    def get_stations_in_bounds(lat1, lng1, lat2, lng2):
+    def get_stations_in_bounds(self, lat1, lng1, lat2, lng2):
         latlng = (',').join(list(map(str, [lat1, lng1, lat2, lng2])))
         r = requests.get(self._url(f'/map/bounds/?token={self.token}&latlng={latlng}'))
         return r, r.json()
 
 
-    def search_stations(keyword):
+    def search_stations(self, keyword):
         r = requests.get(self._url(f'search/?keyword={keyword}&token={self.token}'))
         return r, r.json()
