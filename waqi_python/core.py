@@ -1,7 +1,7 @@
 import requests
 
 from .base_client import BaseClient
-from .station import Location, Station
+from .station import *
 
 
 class WaqiClient(BaseClient):
