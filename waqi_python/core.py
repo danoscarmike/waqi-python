@@ -1,7 +1,7 @@
 import requests
 
 from .base_client import BaseClient
-from .station import Station
+from .station import Location, Station
 
 
 class WaqiClient(BaseClient):
@@ -31,13 +31,18 @@ class WaqiClient(BaseClient):
 
     # TODO(danoscarmike): what is the best format to pass a bounding box?
     # Is there a standard?
-    def get_stations_by_bbox(self, lat1, lng1, lat2, lng2):
+    def get_stations_by_bbox(self, lat1, lng1, lat2, lng2, complete=False):
         bbox = [min(lat1,lat2), min(lng1,lng2), max(lat1,lat2), max(lng1,lng2)]
         latlng = (',').join(list(map(str, bbox)))
         r = requests.get(self._url(f'/map/bounds/?latlng={latlng}'),
                          params=self.params)
         if r.json()['status'] == 'ok':
-            return r, r.json()
+            stations_locs = [Location(station) for station in r.json()['data']]
+            if complete:
+                return [self.get_station_by_city_name(f'@{loc.uid}')
+                        for loc in stations_locs]
+            else:
+                return stations_locs
 
 
     def list_stations_by_keyword(self, keyword):
