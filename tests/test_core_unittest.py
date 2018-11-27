@@ -5,26 +5,26 @@ import unittest
 
 class TestCore(unittest.TestCase):
 
-    def test_get_city_feed(self):
+    def test_get_station_by_city_name(self):
         client = core.WaqiClient()
-        response, payload = client.get_city_feed('shanghai')
+        response, payload = client.get_station_by_city_name('shanghai')
         self.assertEqual(response.status_code, 200, 'Should be 200.')
         self.assertTrue('status' in payload, 'Payload should include "status".')
         self.assertTrue('data' in payload, 'Payload should include "data".')
         self.assertTrue(len(payload['data']) > 0, 'Should contain data.')
 
-    def test_get_local_feed(self):
+    def test_get_local_station(self):
         client = core.WaqiClient()
-        response, payload = client.get_local_feed()
+        response, payload = client.get_local_station()
         self.assertEqual(response.status_code, 200, 'Should be 200.')
         self.assertTrue('status' in payload, 'Payload should include "status".')
         self.assertTrue('data' in payload, 'Payload should include "data".')
 
-    def test_get_feed_by_location(self):
+    def test_get_station_by_latlon(self):
         # Pass arbitrary location (in Ireland)
         # Expect response['data'] to be populated
         client = core.WaqiClient()
-        response, payload = client.get_feed_by_location(53.1, -7.4)
+        response, payload = client.get_station_by_latlon(53.1, -7.4)
         self.assertEqual(response.status_code, 200, 'Should be 200.')
         self.assertTrue('status' in payload, 'Payload should include "status".')
         self.assertTrue('data' in payload, 'Payload should include "data".')
