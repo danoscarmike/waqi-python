@@ -30,11 +30,11 @@ class TestCore(unittest.TestCase):
         self.assertTrue('data' in payload, 'Payload should include "data".')
         self.assertTrue(len(payload['data']) > 0, 'Should contain data.')
 
-    def test_get_stations_in_bounds(self):
+    def test_list_stations_in_bounds(self):
         # Pass arbitrary location (bounding box of New South Wales, Australia)
         # Expect response['data'] to be populated
         client = core.WaqiClient()
-        response, payload = client.get_stations_in_bounds(-37.6, 140.5,
+        response, payload = client.list_stations_in_bounds(-37.6, 140.5,
                                                         -27.9, 154.1)
         self.assertEqual(response.status_code, 200, 'Should be 200.')
         self.assertTrue('status' in payload, 'Payload should include "status".')
