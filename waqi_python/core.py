@@ -31,7 +31,7 @@ class WaqiClient(BaseClient):
 
     # TODO(danoscarmike): what is the best format to pass a bounding box?
     # Is there a standard?
-    def get_stations_by_bbox(self, lat1, lng1, lat2, lng2, complete=False):
+    def list_stations_by_bbox(self, lat1, lng1, lat2, lng2, complete=False):
         bbox = [min(lat1,lat2), min(lng1,lng2), max(lat1,lat2), max(lng1,lng2)]
         latlng = (',').join(list(map(str, bbox)))
         r = requests.get(self._url(f'/map/bounds/?latlng={latlng}'),
