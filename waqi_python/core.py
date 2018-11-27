@@ -14,12 +14,19 @@ class WaqiClient(BaseClient):
         # return r, r.json()
         if r.json()['status'] == 'ok':
             return Station(r.json()['data'])
-
+        elif r.json()['status'] == 'error':
+            return (r.json()['status'], r.json()['message'])
+        else:
+            return 'Unknown Error'
 
     def get_local_station(self):
         r = requests.get(self._url(f'feed/here/'), params=self.params)
         if r.json()['status'] == 'ok':
             return Station(r.json()['data'])
+        elif r.json()['status'] == 'error':
+            return (r.json()['status'], r.json()['message'])
+        else:
+            return 'Unknown Error'
 
 
     def get_station_by_latlng(self, lat, lng):
@@ -27,6 +34,10 @@ class WaqiClient(BaseClient):
                          params=self.params)
         if r.json()['status'] == 'ok':
             return Station(r.json()['data'])
+        elif r.json()['status'] == 'error':
+            return (r.json()['status'], r.json()['message'])
+        else:
+            return 'Unknown Error'
 
 
     # TODO(danoscarmike): what is the best format to pass a bounding box?
@@ -43,9 +54,18 @@ class WaqiClient(BaseClient):
                         for loc in stations_locs]
             else:
                 return stations_locs
+        elif r.json()['status'] == 'error':
+            return (r.json()['status'], r.json()['message'])
+        else:
+            return 'Unknown Error'
 
 
     def list_stations_by_keyword(self, keyword):
         r = requests.get(self._url(f'search/?keyword={keyword}'),
                          params=self.params)
-        return r, r.json()
+        if r.json()['status'] == 'ok':
+            return r, r.json()
+        elif r.json()['status'] == 'error':
+            return (r.json()['status'], r.json()['message'])
+        else:
+            return 'Unknown Error'
