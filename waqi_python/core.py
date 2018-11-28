@@ -61,7 +61,9 @@ class WaqiClient(BaseClient):
         r = requests.get(self._url(f'search/?keyword={keyword}'),
                          params=self.params)
         if r.json()['status'] == 'ok':
-            return r, r.json()
+            stations = [result['uid'] for result in r.json()['data']]
+            return [self.get_station_by_city_name(f'@{station}')
+                    for station in stations]
         elif r.json()['status'] == 'error':
             return (r.json()['status'], r.json()['message'])
         else:
