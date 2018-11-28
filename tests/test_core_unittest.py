@@ -7,9 +7,15 @@ import unittest
 
 class TestCore(unittest.TestCase):
 
-    def test_get_station_by_city_name(self):
+    def test_get_station_by_path(self):
         client = core.WaqiClient()
-        response = client.get_station_by_city_name('shanghai')
+        response = client.get_station_by_path('shanghai')
+        self.assertTrue(isinstance(response, station.Station),
+                        'Should return instance of Station class')
+
+    def test_get_station_by_id(self):
+        client = core.WaqiClient()
+        response = client.get_station_by_id('1437')
         self.assertTrue(isinstance(response, station.Station),
                         'Should return instance of Station class')
 
