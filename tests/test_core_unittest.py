@@ -46,7 +46,7 @@ class TestCore(unittest.TestCase):
         # Expect response['data'] to be empty
         client = core.WaqiClient()
         response = client.list_stations_by_bbox(-27.9, 154.1, -27.7, 154.2)
-        self.assertTrue(len(response) == 0, 'Payload should be empty.')
+        self.assertTrue(response is None, 'Payload should be empty.')
 
 
     def test_list_stations_by_keyword(self):
