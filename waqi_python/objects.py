@@ -34,14 +34,9 @@ class Station():
         self.aqi = data['aqi']
         self.time = Time(data['time'])
         self.city = City(data['city'])
-
-        attributions = []
-        for attrib in data['attributions']:
-            attributions.append(Attribution(attrib))
-        self.attributions = attributions
-
+        self.attributions = [Attribution(attrib)
+                             for attrib in data['attributions']]
         self.dominantpol = data['dominentpol']
-
         # self.iaqi = Iaqi(data['iaqi'])
 
 
