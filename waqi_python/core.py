@@ -8,8 +8,8 @@ class WaqiClient(BaseClient):
     def _url(self, path):
         return self.base_url + path
 
-    def get_station_by_city_name(self, city):
-        r = requests.get(self._url(f'feed/{city}/'), params=self.params)
+    def get_station_by_path(self, path):
+        r = requests.get(self._url(f'feed/{path}/'), params=self.params)
         # return r, r.json()
         if r.json()['status'] == 'ok':
             return Station(r.json()['data'])
@@ -17,6 +17,18 @@ class WaqiClient(BaseClient):
             return (r.json()['status'], r.json()['message'])
         else:
             return 'Unknown Error'
+
+
+    def get_station_by_id(self, uid):
+        r = requests.get(self._url(f'feed/@{uid}/'), params=self.params)
+        # return r, r.json()
+        if r.json()['status'] == 'ok':
+            return Station(r.json()['data'])
+        elif r.json()['status'] == 'error':
+            return (r.json()['status'], r.json()['message'])
+        else:
+            return 'Unknown Error'
+
 
     def get_local_station(self):
         r = requests.get(self._url(f'feed/here/'), params=self.params)
@@ -48,7 +60,7 @@ class WaqiClient(BaseClient):
         if r.json()['status'] == 'ok':
             stations_locs = [Location(station) for station in r.json()['data']]
             if complete:
-                return [self.get_station_by_city_name(f'@{loc.uid}')
+                return [self.get_station_by_id(loc.uid)
                         for loc in stations_locs]
             else:
                 return stations_locs
@@ -62,7 +74,7 @@ class WaqiClient(BaseClient):
                          params=self.params)
         if r.json()['status'] == 'ok':
             stations = [result['uid'] for result in r.json()['data']]
-            return [self.get_station_by_city_name(f'@{station}')
+            return [self.get_station_by_id(station)
                     for station in stations]
         elif r.json()['status'] == 'error':
             return (r.json()['status'], r.json()['message'])
