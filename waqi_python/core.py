@@ -15,16 +15,19 @@ _SEARCH_URL = _BASE_URL + 'search/?keyword={}'
 _PARAMS = {'token':os.environ['AQIPY_TOKEN']}
 
 class WaqiClient():
-    # def _url(self, path):
-    #     return self.base_url + path
+    '''
+    TODO: write the stuff
+    '''
+
     def _get(self, url):
         r = requests.get(url, params=_PARAMS)
         if r.json()['status'] == 'ok':
             return r.json()['data']
         elif r.json()['status'] == 'error':
-            return None
+            print("Seriously, I need to figure out error handling.")
         else:
             return None
+            print("Seriously, I need to figure out error handling.")
 
 
     def get_station_by_path(self, path):
@@ -33,6 +36,7 @@ class WaqiClient():
         if r:
             return Station(r)
         else:
+            return None
             print("I need to figure out error handling.")
 
 
@@ -42,6 +46,7 @@ class WaqiClient():
         if r:
             return Station(r)
         else:
+            return None
             print("I need to figure out error handling.")
 
 
@@ -51,6 +56,7 @@ class WaqiClient():
         if r:
             return Station(r)
         else:
+            return None
             print("I need to figure out error handling.")
 
 
@@ -60,6 +66,7 @@ class WaqiClient():
         if r:
             return Station(r)
         else:
+            return None
             print("I need to figure out error handling.")
 
 
@@ -77,6 +84,7 @@ class WaqiClient():
             else:
                 return stations_locs
         else:
+            return None
             print("I need to figure out error handling.")
 
 
@@ -92,4 +100,5 @@ class WaqiClient():
             else:
                 return stations
         else:
+            return None
             print("I need to figure out error handling.")
