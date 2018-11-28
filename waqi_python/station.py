@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from dateutil.parser import parse
 
 
 class Attribution():
@@ -20,9 +21,12 @@ class Station():
         self.idx = data['idx']
         self.aqi = data['aqi']
 
-        time = data['time']['s']
-        tz = data['time']['tz'].replace(':','')
-        self.time = dt.strptime(f'{time} {tz}', '%Y-%m-%d %H:%M:%S %z')
+        try:
+            time = data['time']['s']
+            tz = data['time']['tz']
+            self.time = parse(f'{time} {tz}')
+        except ValueError:
+            self.time = None
 
         self.name = data['city']['name']
         self.geo = data['city']['geo']
