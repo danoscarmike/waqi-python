@@ -1,11 +1,23 @@
-from datetime import datetime as dt
-from dateutil.parser import parse
+from .helpers import *
 
 
 class Attribution():
     def __init__(self, data):
         self.name = data['name']
         self.url = data['url']
+
+
+class City():
+    def __init__(self, data):
+        self.name = data['name']
+        self.geo = data['geo']
+        self.url = data['url']
+        self.lat = self.geo[0]
+        self.lon = self.geo[1]
+
+
+class Iaqi():
+    pass
 
 
 class Location():
@@ -20,21 +32,21 @@ class Station():
     def __init__(self, data):
         self.idx = data['idx']
         self.aqi = data['aqi']
-
-        try:
-            time = data['time']['s']
-            tz = data['time']['tz']
-            self.time = parse(f'{time} {tz}')
-        except ValueError:
-            self.time = None
-
-        self.name = data['city']['name']
-        self.geo = data['city']['geo']
-        self.url = data['city']['url']
+        self.time = Time(data['time'])
+        self.city = City(data['city'])
 
         attributions = []
         for attrib in data['attributions']:
             attributions.append(Attribution(attrib))
         self.attributions = attributions
 
-        self.raw = data
+        self.dominantpol = data['dominentpol']
+
+        # self.iaqi = Iaqi(data['iaqi'])
+
+
+class Time():
+    def __init__(self, data):
+        self.time = data['s']
+        self.tz = data['tz']
+        self.datetime = convert_to_datetime(self.time, self.tz)

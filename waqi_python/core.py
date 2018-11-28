@@ -2,7 +2,7 @@ import os
 import requests
 
 
-from .station import *
+from .objects import *
 
 _BASE_URL = 'http://api.waqi.info/'
 _FEED_PATH_URL = _BASE_URL + 'feed/{}/'
