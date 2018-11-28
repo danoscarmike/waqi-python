@@ -33,7 +33,7 @@ class WaqiClient():
     def get_station_by_path(self, path):
         url = _FEED_PATH_URL.format(path)
         r = self._get(url)
-        if r:
+        if r is not None:
             return Station(r)
         else:
             return None
@@ -43,7 +43,7 @@ class WaqiClient():
     def get_station_by_id(self, uid):
         url = _FEED_ID_URL.format(uid)
         r = self._get(url)
-        if r:
+        if r is not None:
             return Station(r)
         else:
             return None
@@ -53,7 +53,7 @@ class WaqiClient():
     def get_local_station(self):
         url = _FEED_LOCAL_URL
         r = self._get(url)
-        if r:
+        if r is not None:
             return Station(r)
         else:
             return None
@@ -63,7 +63,7 @@ class WaqiClient():
     def get_station_by_latlng(self, lat, lng):
         url = _FEED_GEO_URL.format(lat, lng)
         r = self._get(url)
-        if r:
+        if r is not None:
             return Station(r)
         else:
             return None
@@ -76,7 +76,7 @@ class WaqiClient():
         latlng = (',').join(list(map(str, bbox)))
         url = _MAP_BBOX_URL.format(latlng)
         r = self._get(url)
-        if r:
+        if r is not None:
             stations_locs = [Location(station) for station in r]
             if complete:
                 return [self.get_station_by_id(loc.uid)
@@ -91,7 +91,7 @@ class WaqiClient():
     def list_stations_by_keyword(self, keyword, complete=False):
         url = _SEARCH_URL.format(keyword)
         r = self._get(url)
-        if r:
+        if r is not None:
             stations = [(result['uid'],result['station']['name'])
                         for result in r]
             if complete:

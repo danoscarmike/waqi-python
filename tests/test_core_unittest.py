@@ -1,5 +1,5 @@
 from context import core
-from waqi_python import station
+from waqi_python.objects import *
 
 
 import unittest
@@ -10,19 +10,19 @@ class TestCore(unittest.TestCase):
     def test_get_station_by_path(self):
         client = core.WaqiClient()
         response = client.get_station_by_path('shanghai')
-        self.assertTrue(isinstance(response, station.Station),
+        self.assertTrue(isinstance(response, Station),
                         'Should return instance of Station class')
 
     def test_get_station_by_id(self):
         client = core.WaqiClient()
         response = client.get_station_by_id('1437')
-        self.assertTrue(isinstance(response, station.Station),
+        self.assertTrue(isinstance(response, Station),
                         'Should return instance of Station class')
 
     def test_get_local_station(self):
         client = core.WaqiClient()
         response = client.get_local_station()
-        self.assertTrue(isinstance(response, station.Station),
+        self.assertTrue(isinstance(response, Station),
                         'Should return instance of Station class')
 
     def test_get_station_by_latlng(self):
@@ -30,7 +30,7 @@ class TestCore(unittest.TestCase):
         # Expect response['data'] to be populated
         client = core.WaqiClient()
         response = client.get_station_by_latlng(53.1, -7.4)
-        self.assertTrue(isinstance(response, station.Station),
+        self.assertTrue(isinstance(response, Station),
                         'Should return instance of Station class')
 
     def test_list_stations_by_bbox(self):
@@ -46,7 +46,7 @@ class TestCore(unittest.TestCase):
         # Expect response['data'] to be empty
         client = core.WaqiClient()
         response = client.list_stations_by_bbox(-27.9, 154.1, -27.7, 154.2)
-        self.assertTrue(response is None, 'Payload should be empty.')
+        self.assertTrue(response == [], 'Payload should be empty.')
 
 
     def test_list_stations_by_keyword(self):
