@@ -6,6 +6,7 @@ Python wrapper for the WAQI JSON API
 2. Create an environment variable called AQIPY_TOKEN:
 
 `export AQIPY_TOKEN='<your_new_token>'
+
 3. `pip3 install waqi-python`
 
 # Usage
