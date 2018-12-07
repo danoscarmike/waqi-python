@@ -21,84 +21,81 @@ class WaqiClient():
 
     def _get(self, url):
         r = requests.get(url, params=_PARAMS)
+        if r.status_code != 200:
+            raise ApiError('GET {} {}'.format(url, r.status_code))
         if r.json()['status'] == 'ok':
             return r.json()['data']
         elif r.json()['status'] == 'error':
-            print("Seriously, I need to figure out error handling.")
+            raise ApiError('GET {} {}: {}'.format(
+                url, r.json()['status']), r.json()['message'])
         else:
             return None
-            print("Seriously, I need to figure out error handling.")
 
 
     def get_station_by_path(self, path):
         url = _FEED_PATH_URL.format(path)
-        r = self._get(url)
-        if r is not None:
-            return Station(r)
+        data = self._get(url)
+        if data is not None:
+            return Station(data)
         else:
             return None
-            print("I need to figure out error handling.")
 
 
     def get_station_by_id(self, uid):
         url = _FEED_ID_URL.format(uid)
-        r = self._get(url)
-        if r is not None:
-            return Station(r)
+        data = self._get(url)
+        if data is not None:
+            return Station(data)
         else:
             return None
-            print("I need to figure out error handling.")
 
 
     def get_local_station(self):
         url = _FEED_LOCAL_URL
-        r = self._get(url)
-        if r is not None:
-            return Station(r)
+        data = self._get(url)
+        if data is not None:
+            return Station(data)
         else:
             return None
-            print("I need to figure out error handling.")
 
 
     def get_station_by_latlng(self, lat, lng):
         url = _FEED_GEO_URL.format(lat, lng)
-        r = self._get(url)
-        if r is not None:
-            return Station(r)
+        data = self._get(url)
+        if data is not None:
+            return Station(data)
         else:
             return None
-            print("I need to figure out error handling.")
 
 
-    def list_stations_by_bbox(self, lat1, lng1, lat2, lng2, complete=False):
+    def list_stations_by_bbox(self, lat1, lng1, lat2, lng2, detailed=False):
         bbox = [min(lat1, lat2), min(lng1, lng2), max(lat1, lat2),
                 max(lng1, lng2)]
         latlng = (',').join(list(map(str, bbox)))
         url = _MAP_BBOX_URL.format(latlng)
-        r = self._get(url)
-        if r is not None:
-            stations_locs = [Location(station) for station in r]
-            if complete:
+        data = self._get(url)
+        if data is not None:
+            stations_locs = [Location(station) for station in data]
+            if detailed:
                 return [self.get_station_by_id(loc.uid)
                         for loc in stations_locs]
             else:
                 return stations_locs
         else:
             return None
-            print("I need to figure out error handling.")
 
 
-    def list_stations_by_keyword(self, keyword, complete=False):
+    def list_stations_by_keyword(self, keyword, detailed=False):
         url = _SEARCH_URL.format(keyword)
-        r = self._get(url)
-        if r is not None:
+        data = self._get(url)
+        if data is not None:
             stations = [(result['uid'],result['station']['name'])
-                        for result in r]
-            if complete:
+                        for result in data]
+            if detailed:
                 return [self.get_station_by_id(station[0])
                         for station in stations]
             else:
                 return stations
         else:
             return None
-            print("I need to figure out error handling.")
+ 

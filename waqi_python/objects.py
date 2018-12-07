@@ -17,8 +17,14 @@ class City():
 
 
 class Iaqi():
+    # def __init__(self, data):
+    #     self.pm2_5 = data[]
+    #     self.pm10 = data[]
+    #     self.no2 = data[]
+    #     self.co = data[]
+    #     self.so2 = data[]
+    #     self.ozone = data[]
     pass
-
 
 class Location():
     def __init__(self, data):
