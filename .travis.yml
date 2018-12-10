@@ -1,5 +1,14 @@
 language: python
+
 python:
   - "3.5"
   - "3.6"
-script: python tests/test_core_unittest.py
+
+install:
+  - pip install codecov
+
+script:
+  - coverage run tests/test_core_unittest.py
+
+after_success:
+  - codecov
