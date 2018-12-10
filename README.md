@@ -17,3 +17,7 @@ Python wrapper for the World Air Quality Index Project JSON API
 >>> my_station.aqi
 46
 ```
+
+# Attribution
+This tool uses APIs provided by the [World Air Quality Index Project](
+  http://aqicn.org/).
