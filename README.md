@@ -1,6 +1,8 @@
 # waqi-python
 Python wrapper for the World Air Quality Index Project JSON API
 
+[![Build Status](https://travis-ci.com/danoscarmike/waqi-python.svg?branch=master)](https://travis-ci.com/danoscarmike/waqi-python)
+
 # Installation
 1. Get an API token from the [World Air Quality Index Project](https://aqicn.org/data-platform/token/#/)
 2. Create an environment variable called AQIPY_TOKEN:
