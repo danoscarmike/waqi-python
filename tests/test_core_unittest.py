@@ -55,5 +55,11 @@ class TestCore(unittest.TestCase):
         self.assertTrue(len(response) > 0, 'Payload should contain data.')
 
 
+    def test_bad_datetime(self):
+        bad_data = {'tz':'Somewhere', 's':'Somemonth/Someday/Someyear'}
+        bad_time = Time(bad_data)
+        self.assertTrue(bad_time.datetime is None, 'Datetime should be None.')
+
+
 if __name__ == '__main__':
     unittest.main()
