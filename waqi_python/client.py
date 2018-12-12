@@ -29,7 +29,7 @@ class WaqiClient():
             raise ApiError('GET {} {}: {}'.format(
                 url, r.json()['status']), r.json()['message'])
         else:
-            return None
+            raise UnknownError('GET {} {}'.format(url, r.status_code))
 
 
     def get_station_by_path(self, path):
@@ -98,4 +98,3 @@ class WaqiClient():
                 return stations
         else:
             return None
- 

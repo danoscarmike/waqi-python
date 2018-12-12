@@ -5,14 +5,14 @@ with open("README.md", "r") as fh:
 
 setup(
     name='waqi-python',
-    version='0.1.0',
+    version='0.2.1',
     author='Dan O\'Meara',
     author_email='omeara.dan@gmail.com',
-    description='A Python wrapper for the World Air Quality Index Project JSON API',
+    description='Python wrapper for the World Air Quality Index Project JSON API',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/danoscarmike/waqi-python",
-    packages=['waqi-python'],
+    packages=['waqi_python'],
     install_requires=[
         'python-dateutil',
         'requests',
