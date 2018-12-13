@@ -44,6 +44,10 @@ class TestClient(unittest.TestCase):
         client = base.WaqiClient()
         response = client.list_stations_by_bbox(-37.6, 140.5, -27.9, 154.1)
         self.assertTrue(len(response) > 0, 'Payload should contain data.')
+        response = client.list_stations_by_bbox(-37.6, 140.5, -27.9, 154.1,
+                                                detailed=True)
+        self.assertTrue(isinstance(response[-1], Station),
+                        '`detailed=True` should return Station class.')
 
 
     def test_get_stations_by_bbox_expect_empty(self):
@@ -58,6 +62,9 @@ class TestClient(unittest.TestCase):
         client = base.WaqiClient()
         response = client.list_stations_by_keyword('beijing')
         self.assertTrue(len(response) > 0, 'Payload should contain data.')
+        response = client.list_stations_by_keyword('beijing', detailed=True)
+        self.assertTrue(isinstance(response[-1], Station),
+                        '`detailed=True` should return Station class.')
 
 
     @patch('waqi_python.client.requests.get')
