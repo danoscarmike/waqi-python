@@ -1,4 +1,4 @@
-from context import client as base
+from .context import client as base
 from waqi_python.objects import *
 from waqi_python.exceptions import *
 
