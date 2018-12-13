@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 try:
     from .context import client as base
-except:
+except ImportError:
     from context import client as base
 
 from waqi_python.objects import *

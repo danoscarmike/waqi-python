@@ -2,7 +2,8 @@ import unittest
 
 from waqi_python.objects import *
 
-class TestClient(unittest.TestCase):
+
+class TestHelpers(unittest.TestCase):
 
     def test_bad_datetime(self):
         bad_data = {'tz':'Somewhere', 's':'Somemonth/Someday/Someyear'}
