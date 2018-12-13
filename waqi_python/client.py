@@ -1,7 +1,7 @@
 import os
 import requests
 
-
+from .exceptions import *
 from .objects import *
 
 _BASE_URL = 'http://api.waqi.info/'
@@ -27,7 +27,7 @@ class WaqiClient():
             return r.json()['data']
         elif r.json()['status'] == 'error':
             raise ApiError('GET {} {}: {}'.format(
-                url, r.json()['status']), r.json()['message'])
+                url, r.json()['status'], r.json()['message']))
         else:
             raise UnknownError('GET {} {}'.format(url, r.status_code))
 

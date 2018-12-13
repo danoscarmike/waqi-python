@@ -1,11 +1,13 @@
 from context import client as base
 from waqi_python.objects import *
+from waqi_python.exceptions import *
 
 
 import unittest
+from unittest.mock import Mock, patch
 
 
-class TestCore(unittest.TestCase):
+class TestClient(unittest.TestCase):
 
     def test_get_station_by_path(self):
         client = base.WaqiClient()
@@ -59,6 +61,34 @@ class TestCore(unittest.TestCase):
         bad_data = {'tz':'Somewhere', 's':'Somemonth/Someday/Someyear'}
         bad_time = Time(bad_data)
         self.assertTrue(bad_time.datetime is None, 'Datetime should be None.')
+
+
+    @patch('waqi_python.client.requests.get')
+    def test_non_200_ApiError(self, mock_get):
+        mock_get.return_value.ok = False
+        client = base.WaqiClient()
+        with self.assertRaises(ApiError):
+            response = client.get_local_station()
+
+
+    @patch('waqi_python.client.requests.get')
+    def test_200_but_error_message(self, mock_get):
+        error_response = {"status": "error", "message": "<error-response>"}
+        mock_get.return_value = Mock(status_code=200)
+        mock_get.return_value.json.return_value = error_response
+        client = base.WaqiClient()
+        with self.assertRaises(ApiError):
+            response = client.get_local_station()
+
+
+    @patch('waqi_python.client.requests.get')
+    def test_200_unknown_message(self, mock_get):
+        error_response = {"status": "some unclear weirdness", "error": "weird"}
+        mock_get.return_value = Mock(status_code=200)
+        mock_get.return_value.json.return_value = error_response
+        client = base.WaqiClient()
+        with self.assertRaises(UnknownError):
+            response = client.get_local_station()
 
 
 if __name__ == '__main__':
